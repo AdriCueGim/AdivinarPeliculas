@@ -6,9 +6,10 @@
         xmlns:pestañas="clr-namespace:AdivinarPeliculas.pestañas"
         mc:Ignorable="d"
         Title="Adivinar películas" 
-        Height="450" Width="800"
-        Icon="recursos/AdivinarPeliculasPinguino.ico">
-    <TabControl>
+        MinHeight="450" MinWidth="700"
+        Icon="recursos/AdivinarPeliculasPinguino.ico"
+        Background="LightBlue">
+    <TabControl Margin="5">
         <TabItem Header="Jugar">
             <pestañas:AdivinarPeliculas x:Name="jugar"></pestañas:AdivinarPeliculas>
         </TabItem>

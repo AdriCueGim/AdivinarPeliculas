@@ -5,8 +5,90 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AdivinarPeliculas.pestañas"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             d:DesignHeight="445" d:DesignWidth="695"
+             Background="White">
+    <UserControl.Resources>
+        <Style x:Key="formulario"
+               TargetType="{x:Type TextBlock}">
+            <Setter Property="Width"
+                    Value="120" />
+        </Style>
+
+        <Style TargetType="{x:Type DockPanel}">
+            <Setter Property="Margin"
+                    Value="0,5" />
+        </Style>
+
+        <Style x:Key="dificultades"
+               TargetType="{x:Type RadioButton}">
+            <Setter Property="GroupName"
+                    Value="dificultadesRadioButton" />
+            <Setter Property="Margin"
+                    Value="0,2" />
+        </Style>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Width"
+                    Value="120" />
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid x:Name="contenedorPrincipal">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="180"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel>
+            <ListBox>
+                
+            </ListBox>
+            <DockPanel>
+                <TextBlock Text="Título de la película"
+                           Style="{StaticResource formulario}"/>
+                <TextBox />
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock Text="Pista de la película"
+                           Style="{StaticResource formulario}" />
+                <TextBox />
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock Text="Imagen de la película"
+                           Style="{StaticResource formulario}" />
+                <TextBox />
+            </DockPanel>
+
+
+            <DockPanel>
+                <TextBlock Text="Nivel de dificultad"
+                           Style="{StaticResource formulario}" />
+                <StackPanel Orientation="Vertical">
+                    <RadioButton Style="{StaticResource dificultades}"
+                                 Content="Fácil" />
+                    <RadioButton Style="{StaticResource dificultades}"
+                                 Content="Normal" />
+                    <RadioButton Style="{StaticResource dificultades}"
+                                 Content="Difícil" />
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center"
+                            Orientation="Horizontal"
+                            Height="20">
+                    <TextBlock Text="Género"
+                               Margin="5,0"/>
+                    <ComboBox Margin="5,0"></ComboBox>
+                </StackPanel>
+            </DockPanel>
+        </StackPanel>
+
+        <DockPanel Grid.Column="1"
+                   LastChildFill="False">
+
+            <Button DockPanel.Dock="Top"
+                    Content="Cargar de JSON"/>
+
+        </DockPanel>
     </Grid>
 </UserControl>
