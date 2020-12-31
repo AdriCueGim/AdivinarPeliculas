@@ -33,5 +33,30 @@ namespace AdivinarPeliculas.pestañas
         {
             Peliculas.Remove(listaPeliculas.SelectedItem as Pelicula);
         }
+
+        private void BotonAñadir_Click(object sender, RoutedEventArgs e)
+        {
+            Pelicula.Dificultad dificultad;
+
+            if ((bool)facilRadioButton.IsChecked)
+                dificultad = Pelicula.Dificultad.Facil;
+            else if ((bool)normalRadioButton.IsChecked)
+                dificultad = Pelicula.Dificultad.Normal;
+            else
+                dificultad = Pelicula.Dificultad.Dificil;
+
+            Peliculas.Add(new Pelicula(tituloTextBox.Text,
+                                       pistaTextBox.Text,
+                                       imagenTextBox.Text,
+                                       dificultad,
+                                       (Pelicula.Genero)Enum.Parse(
+                                                            typeof(Pelicula.Genero),
+                                                            listaGeneros.SelectedItem.ToString())));
+        }
+
+        private void BotonDeseleccionar_Click(object sender, RoutedEventArgs e)
+        {
+            listaPeliculas.SelectedItem = null;
+        }
     }
 }

@@ -16,7 +16,7 @@
         <Style x:Key="formulario"
                TargetType="{x:Type TextBlock}">
             <Setter Property="Width"
-                    Value="120" />
+                    Value="135" />
         </Style>
 
         <Style TargetType="{x:Type DockPanel}">
@@ -38,6 +38,11 @@
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=DificultadAdivinado}"
                              Value="{x:Static dificultades:Pelicula+Dificultad.Facil}">
+                    <Setter Property="IsChecked"
+                            Value="True" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=DificultadAdivinado}"
+                             Value="{x:Null}">
                     <Setter Property="IsChecked"
                             Value="True" />
                 </DataTrigger>
@@ -68,12 +73,12 @@
 
         <Style x:Key="botones" TargetType="{x:Type Button}">
             <Setter Property="Width"
-                    Value="120" />
+                    Value="135" />
             <Setter Property="Margin"
                     Value="5" />
         </Style>
 
-        <Style x:Key="botonEliminar" BasedOn="{StaticResource botones}" TargetType="{x:Type Button}">
+        <Style x:Key="botonEliminarDeseleccionar" BasedOn="{StaticResource botones}" TargetType="{x:Type Button}">
             <Setter Property="Margin"
                     Value="5,50,5,5" />
 
@@ -81,6 +86,32 @@
                     Value="True" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding ElementName=listaPeliculas, Path=SelectedItem}" 
+                             Value="{x:Null}">
+                    <Setter Property="IsEnabled"
+                            Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="botonAñadir"
+               BasedOn="{StaticResource botones}"
+               TargetType="{x:Type Button}">
+            <Setter Property="IsEnabled"
+                    Value="False" />
+            <Setter Property="IsDefault"
+                    Value="True" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=listaPeliculas, Path=SelectedItem}"
+                             Value="{x:Null}">
+                    <Setter Property="IsEnabled"
+                            Value="True" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=tituloTextBox, Path=Text}"
+                             Value="">
+                    <Setter Property="IsEnabled"
+                            Value="False" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=listaGeneros, Path=SelectedItem}"
                              Value="{x:Null}">
                     <Setter Property="IsEnabled"
                             Value="False" />
@@ -108,6 +139,7 @@
         <StackPanel DataContext="{Binding ElementName=listaPeliculas, Path=SelectedItem}">
             <ListBox x:Name="listaPeliculas"
                      ItemsSource="{Binding ElementName=contenedorPrincipal, Path=DataContext}"
+                     MaxHeight="285"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemsPanel>
@@ -117,39 +149,46 @@
                 </ListBox.ItemsPanel>
             </ListBox>
             <DockPanel>
-                <TextBlock Text="Título de la película"
+                <TextBlock Text="Título de la película *"
                            Style="{StaticResource formulario}" />
-                <TextBox Text="{Binding Path=Titulo}" />
+                <TextBox Text="{Binding Path=Titulo}"
+                         x:Name="tituloTextBox"/>
             </DockPanel>
 
             <DockPanel>
                 <TextBlock Text="Pista de la película"
                            Style="{StaticResource formulario}" />
-                <TextBox Text="{Binding Path=Pista}" />
+                <TextBox Text="{Binding Path=Pista}"
+                         x:Name="pistaTextBox"/>
             </DockPanel>
 
             <DockPanel>
                 <TextBlock Text="Imagen de la película"
                            Style="{StaticResource formulario}" />
-                <TextBox Text="{Binding Path=RutaImagen}" />
+                <TextBox Text="{Binding Path=RutaImagen}"
+                         x:Name="imagenTextBox"/>
             </DockPanel>
 
 
             <DockPanel>
                 <TextBlock Text="Nivel de dificultad"
                            Style="{StaticResource formulario}" />
-                <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Vertical"
+                            x:Name="selectorDificultad">
                     <RadioButton Style="{StaticResource facil}"
+                                 x:Name="facilRadioButton"
                                  Content="Fácil" />
                     <RadioButton Style="{StaticResource normal}"
+                                 x:Name="normalRadioButton"
                                  Content="Normal" />
                     <RadioButton Style="{StaticResource dificil}"
+                                 x:Name="dificilRadioButton"
                                  Content="Difícil" />
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Center"
                             Orientation="Horizontal"
                             Height="20">
-                    <TextBlock Text="Género"
+                    <TextBlock Text="Género *"
                                Margin="5,0" />
                     <ComboBox Margin="5,0"
                               x:Name="listaGeneros"
@@ -170,16 +209,21 @@
                     Style="{StaticResource botones}"
                     Content="Guardar en JSON" />
             <Button DockPanel.Dock="Top"
-                    Style="{StaticResource botonEliminar}"
+                    Style="{StaticResource botonEliminarDeseleccionar}"
                     Content="Eliminar película"
                     Click="BotonEliminar_Click"/>
             <Button DockPanel.Dock="Top"
-                    Style="{StaticResource botones}"
-                    Content="Añadir película" />
+                    Style="{StaticResource botonAñadir}"
+                    Content="Añadir película"
+                    Click="BotonAñadir_Click" />
+            <Button DockPanel.Dock="Top"
+                    Style="{StaticResource botonEliminarDeseleccionar}"
+                    IsCancel="True"
+                    Content="Deseleccionar película"
+                    Click="BotonDeseleccionar_Click"/>
             <Button DockPanel.Dock="Bottom"
                     Style="{StaticResource botones}"
-                    Content="Examinar" />
-
+                    Content="Examinar imagen" />
         </DockPanel>
     </Grid>
 </UserControl>
