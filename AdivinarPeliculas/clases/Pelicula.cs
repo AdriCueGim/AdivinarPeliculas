@@ -65,7 +65,6 @@ namespace AdivinarPeliculas.clases
         }
 
         private Genero genero;
-
         public Genero GeneroPelicula
         {
             get { return genero; }
@@ -77,6 +76,23 @@ namespace AdivinarPeliculas.clases
                     this.NotifyPropertyChanged("Genero");
                 }
             }
+        }
+
+        public static string[] GENEROS
+        {
+            get
+            {
+                return System.Enum.GetNames(typeof(Genero));
+            }
+        }
+
+        public Pelicula(string titulo, string pista, string rutaImagen, Dificultad dificultadAdivinado, Genero generoPelicula)
+        {
+            Titulo = titulo;
+            Pista = pista;
+            RutaImagen = rutaImagen;
+            DificultadAdivinado = dificultadAdivinado;
+            GeneroPelicula = generoPelicula;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
