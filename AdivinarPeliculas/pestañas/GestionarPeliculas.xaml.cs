@@ -23,9 +23,15 @@ namespace AdivinarPeliculas.pestañas
             listaGeneros.ItemsSource = Pelicula.GENEROS;
         }
 
+        private void ActualizaLista()
+        {
+            (Application.Current.MainWindow as MainWindow).Peliculas = Peliculas;
+        }
+
         private void BotonEliminar_Click(object sender, RoutedEventArgs e)
         {
             Peliculas.Remove(listaPeliculas.SelectedItem as Pelicula);
+            ActualizaLista();
         }
 
         private void BotonAñadir_Click(object sender, RoutedEventArgs e)
@@ -46,6 +52,7 @@ namespace AdivinarPeliculas.pestañas
                                        (Pelicula.Genero)Enum.Parse(
                                                             typeof(Pelicula.Genero),
                                                             listaGeneros.SelectedItem.ToString())));
+            ActualizaLista();
         }
 
         private void BotonDeseleccionar_Click(object sender, RoutedEventArgs e)
@@ -86,6 +93,7 @@ namespace AdivinarPeliculas.pestañas
                     contenedorPrincipal.DataContext = Peliculas;
                 }
             }
+            ActualizaLista();
         }
 
         private void BotonExaminarImagen_Click(object sender, RoutedEventArgs e)

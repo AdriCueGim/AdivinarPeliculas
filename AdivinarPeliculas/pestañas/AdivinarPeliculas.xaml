@@ -14,11 +14,11 @@
             <Setter Property="Width"
                     Value="35" />
             <Setter Property="Source"
-                    Value="./AdivinarPeliculas/recursos/arrow.png" />
+                    Value="../recursos/arrow.png" />
         </Style>
     </UserControl.Resources>
 
-    <Grid x:Name="contenedorPrinciapl"
+    <Grid x:Name="contenedorPrincipal"
           Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -29,6 +29,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
+        
         <DockPanel Grid.Column="0"
                    Grid.Row="0"
                    Grid.RowSpan="2">
@@ -37,7 +38,8 @@
                        DockPanel.Dock="Top" />
             <Image x:Name="imagenPelicula"
                    Margin="10,2,10,5"
-                   Stretch="Uniform">
+                   Stretch="Uniform"
+                   Source="{Binding Path=RutaImagen}">
                 <Image.Effect>
                     <BlurEffect Radius="30" />
                 </Image.Effect>
@@ -64,7 +66,8 @@
             <Button VerticalAlignment="Top"
                     Width="100"
                     Margin="15,20"
-                    Content="Nueva partida" />
+                    Content="Nueva partida"
+                    Click="BotonNuevaPartida_Click" />
         </StackPanel>
 
         <DockPanel Grid.Row="1"
@@ -74,6 +77,7 @@
                        DockPanel.Dock="Top"/>
             <DockPanel DockPanel.Dock="Top">
                 <Button DockPanel.Dock="Right"
+                        x:Name="botonValidar"
                         Content="Validar"
                         Width="60"
                         Margin="10,0" />
@@ -86,7 +90,8 @@
             <TextBlock x:Name="textoPista"
                        DockPanel.Dock="Top"
                        FontFamily="Courier New"
-                       FontSize="16" />
+                       FontSize="16"
+                       TextAlignment="Center" />
             <TextBlock Text="Género"
                        DockPanel.Dock="Bottom"
                        HorizontalAlignment="Center"
@@ -102,13 +107,15 @@
                     Grid.ColumnSpan="2"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
-            <Image Style="{StaticResource flecha}" />
+            <Image Style="{StaticResource flecha}"
+                   MouseLeftButtonUp="Izquierda_MouseLeftButtonUp" />
             <TextBlock x:Name="numeroPeliculas"
                        Text="0 / 0"
                        FontSize="30"
                        Margin="5,0" />
             <Image Style="{StaticResource flecha}"
-                   RenderTransformOrigin="0.5,0.5">
+                   RenderTransformOrigin="0.5,0.5"
+                   MouseLeftButtonUp="Derecha_MouseLeftButtonUp">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleY="1"
