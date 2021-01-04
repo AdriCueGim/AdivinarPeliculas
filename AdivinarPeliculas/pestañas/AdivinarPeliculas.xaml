@@ -1,14 +1,125 @@
 ﻿<UserControl x:Class="AdivinarPeliculas.pestañas.AdivinarPeliculas"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:AdivinarPeliculas.pestañas"
              mc:Ignorable="d"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
+             d:DesignHeight="445"
+             d:DesignWidth="695"
              Background="White">
-    <Grid>
-            
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Image}"
+               x:Key="flecha">
+            <Setter Property="Width"
+                    Value="35" />
+            <Setter Property="Source"
+                    Value="./AdivinarPeliculas/recursos/arrow.png" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid x:Name="contenedorPrinciapl"
+          Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="1.5*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Column="0"
+                   Grid.Row="0"
+                   Grid.RowSpan="2">
+            <TextBlock Text="Cartel de la película"
+                       Margin="10,0,10,5"
+                       DockPanel.Dock="Top" />
+            <Image x:Name="imagenPelicula"
+                   Margin="10,2,10,5"
+                   Stretch="Uniform">
+                <Image.Effect>
+                    <BlurEffect Radius="30" />
+                </Image.Effect>
+            </Image>
+        </DockPanel>
+
+        <StackPanel Grid.Row="0" 
+                    Grid.Column="1" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right">
+            <StackPanel>
+                <TextBlock Text="Puntuación total" />
+                <Border BorderBrush="Black"
+                        BorderThickness="2"
+                        Margin="0,2"
+                        Height="100"
+                        Width="150">
+                    <TextBlock x:Name="textoPuntuacion"
+                               FontSize="50"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center" />
+                </Border>
+            </StackPanel>
+            <Button VerticalAlignment="Top"
+                    Width="100"
+                    Margin="15,20"
+                    Content="Nueva partida" />
+        </StackPanel>
+
+        <DockPanel Grid.Row="1"
+                   Grid.Column="1"
+                   Margin="10,5">
+            <TextBlock Text="Título de la película"
+                       DockPanel.Dock="Top"/>
+            <DockPanel DockPanel.Dock="Top">
+                <Button DockPanel.Dock="Right"
+                        Content="Validar"
+                        Width="60"
+                        Margin="10,0" />
+                <TextBox x:Name="tituloAdivinado" />
+            </DockPanel>
+            <CheckBox DockPanel.Dock="Top"
+                      x:Name="pistaCheckBox"
+                      Margin="0,5"
+                      Content="Ver pista" />
+            <TextBlock x:Name="textoPista"
+                       DockPanel.Dock="Top"
+                       FontFamily="Courier New"
+                       FontSize="16" />
+            <TextBlock Text="Género"
+                       DockPanel.Dock="Bottom"
+                       HorizontalAlignment="Center"
+                       FontSize="10"/>
+            <Image x:Name="iconoGenero"
+                   Stretch="Uniform"
+                   Width="100"
+                   Margin="0,4,0,0"/>
+        </DockPanel>
+
+        <StackPanel Grid.Column="0"
+                    Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <Image Style="{StaticResource flecha}" />
+            <TextBlock x:Name="numeroPeliculas"
+                       Text="0 / 0"
+                       FontSize="30"
+                       Margin="5,0" />
+            <Image Style="{StaticResource flecha}"
+                   RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="1"
+                                        ScaleX="-1" />
+                        <SkewTransform AngleY="0"
+                                       AngleX="0" />
+                        <RotateTransform Angle="0" />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </StackPanel>
     </Grid>
 </UserControl>
