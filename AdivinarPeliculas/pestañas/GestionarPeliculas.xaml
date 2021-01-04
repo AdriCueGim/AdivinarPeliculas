@@ -78,6 +78,20 @@
                     Value="5" />
         </Style>
 
+        <Style x:Key="botonGuardarJson"
+               BasedOn="{StaticResource botones}"
+               TargetType="{x:Type Button}">
+            <Setter Property="IsEnabled"
+                    Value="True" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=listaPeliculas, Path=HasItems}"
+                             Value="False">
+                    <Setter Property="IsEnabled"
+                            Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <Style x:Key="botonEliminarDeseleccionar" BasedOn="{StaticResource botones}" TargetType="{x:Type Button}">
             <Setter Property="Margin"
                     Value="5,50,5,5" />
@@ -140,6 +154,7 @@
             <ListBox x:Name="listaPeliculas"
                      ItemsSource="{Binding ElementName=contenedorPrincipal, Path=DataContext}"
                      MaxHeight="285"
+                     MinHeight="285"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemsPanel>
@@ -204,10 +219,12 @@
 
             <Button DockPanel.Dock="Top"
                     Style="{StaticResource botones}"
-                    Content="Cargar de JSON" />
+                    Content="Cargar de JSON"
+                    Click="BotonCargarJson_Click" />
             <Button DockPanel.Dock="Top"
-                    Style="{StaticResource botones}"
-                    Content="Guardar en JSON" />
+                    Style="{StaticResource botonGuardarJson}"
+                    Content="Guardar en JSON"
+                    Click="BotonGuardarJson_Click" />
             <Button DockPanel.Dock="Top"
                     Style="{StaticResource botonEliminarDeseleccionar}"
                     Content="Eliminar película"

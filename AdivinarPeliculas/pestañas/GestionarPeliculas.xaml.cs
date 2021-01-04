@@ -2,18 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Microsoft.Win32;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace AdivinarPeliculas.pestañas
 {
@@ -25,7 +19,6 @@ namespace AdivinarPeliculas.pestañas
         {
             InitializeComponent();
             Peliculas = (Application.Current.MainWindow as MainWindow).Peliculas;
-            contenedorPrincipal.DataContext = Peliculas;
             listaGeneros.ItemsSource = Pelicula.GENEROS;
         }
 
@@ -57,6 +50,41 @@ namespace AdivinarPeliculas.pestañas
         private void BotonDeseleccionar_Click(object sender, RoutedEventArgs e)
         {
             listaPeliculas.SelectedItem = null;
+        }
+
+        private void BotonGuardarJson_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "JSON file (*.json)|*.json";
+            saveFileDialog.InitialDirectory = AppContext.BaseDirectory;
+            string peliculasJson = JsonConvert.SerializeObject(Peliculas);
+
+            if (saveFileDialog.ShowDialog() == true)
+                File.WriteAllText(saveFileDialog.FileName, peliculasJson, Encoding.UTF8);
+        }
+
+        private void BotonCargarJson_Click(object sender, RoutedEventArgs e)
+        {
+            List<Pelicula> peliculas;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JSON file (*.json)|*.json|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = AppContext.BaseDirectory;
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                Peliculas = new ObservableCollection<Pelicula>();
+                using (StreamReader jsonStream = File.OpenText(openFileDialog.FileName))
+                {
+                    var json = jsonStream.ReadToEnd();
+                    peliculas = JsonConvert.DeserializeObject<List<Pelicula>>(json);
+
+                    foreach (Pelicula pelicula in peliculas)
+                    {
+                        Peliculas.Add(pelicula);
+                    }
+                    contenedorPrincipal.DataContext = Peliculas;
+                }
+            }
         }
     }
 }
