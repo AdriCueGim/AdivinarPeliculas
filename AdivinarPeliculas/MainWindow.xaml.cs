@@ -11,7 +11,6 @@ namespace AdivinarPeliculas
         public MainWindow()
         {
             Peliculas = new ObservableCollection<Pelicula>();
-            //GeneraPeliculasEjemplo();
             InitializeComponent();
         }
     }

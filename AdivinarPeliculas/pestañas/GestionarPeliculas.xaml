@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:AdivinarPeliculas.pestañas"
              xmlns:clases="clr-namespace:AdivinarPeliculas.clases"
              xmlns:dificultades="clr-namespace:AdivinarPeliculas.clases;assembly=AdivinarPeliculas"
              mc:Ignorable="d"
@@ -153,8 +152,7 @@
         <StackPanel DataContext="{Binding ElementName=listaPeliculas, Path=SelectedItem}">
             <ListBox x:Name="listaPeliculas"
                      ItemsSource="{Binding ElementName=contenedorPrincipal, Path=DataContext}"
-                     MaxHeight="285"
-                     MinHeight="285"
+                     Height="285"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemsPanel>
@@ -240,7 +238,8 @@
                     Click="BotonDeseleccionar_Click"/>
             <Button DockPanel.Dock="Bottom"
                     Style="{StaticResource botones}"
-                    Content="Examinar imagen" />
+                    Content="Examinar imagen"
+                    Click="BotonExaminarImagen_Click"/>
         </DockPanel>
     </Grid>
 </UserControl>

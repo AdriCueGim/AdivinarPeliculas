@@ -19,6 +19,7 @@ namespace AdivinarPeliculas.pestañas
         {
             InitializeComponent();
             Peliculas = (Application.Current.MainWindow as MainWindow).Peliculas;
+            contenedorPrincipal.DataContext = Peliculas;
             listaGeneros.ItemsSource = Pelicula.GENEROS;
         }
 
@@ -85,6 +86,16 @@ namespace AdivinarPeliculas.pestañas
                     contenedorPrincipal.DataContext = Peliculas;
                 }
             }
+        }
+
+        private void BotonExaminarImagen_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JPG file (*.jpg)|*.jpg|JPEG file (*.jpeg)|*.jpeg|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = AppContext.BaseDirectory;
+
+            if (openFileDialog.ShowDialog() == true)
+                imagenTextBox.Text = openFileDialog.FileName;
         }
     }
 }
