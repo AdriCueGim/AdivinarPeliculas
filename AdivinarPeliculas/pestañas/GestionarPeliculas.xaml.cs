@@ -81,16 +81,26 @@ namespace AdivinarPeliculas.pestañas
             if (openFileDialog.ShowDialog() == true)
             {
                 Peliculas = new ObservableCollection<Pelicula>();
-                using (StreamReader jsonStream = File.OpenText(openFileDialog.FileName))
+                try
                 {
-                    var json = jsonStream.ReadToEnd();
-                    peliculas = JsonConvert.DeserializeObject<List<Pelicula>>(json);
-
-                    foreach (Pelicula pelicula in peliculas)
+                    using (StreamReader jsonStream = File.OpenText(openFileDialog.FileName))
                     {
-                        Peliculas.Add(pelicula);
+                        var json = jsonStream.ReadToEnd();
+                        peliculas = JsonConvert.DeserializeObject<List<Pelicula>>(json);
+
+                        foreach (Pelicula pelicula in peliculas)
+                        {
+                            Peliculas.Add(pelicula);
+                        }
+                        contenedorPrincipal.DataContext = Peliculas;
                     }
-                    contenedorPrincipal.DataContext = Peliculas;
+                }
+                catch (JsonReaderException)
+                {
+                    MessageBox.Show(
+                        "El formato del documento no es válido", 
+                        "Error al cargar JSON", 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             ActualizaLista();

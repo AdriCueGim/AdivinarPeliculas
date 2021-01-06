@@ -6,7 +6,7 @@
         xmlns:pestañas="clr-namespace:AdivinarPeliculas.pestañas"
         mc:Ignorable="d"
         Title="Adivinar películas" 
-        MinHeight="520" MinWidth="700"
+        MinHeight="530" MinWidth="700"
         Icon="recursos/AdivinarPeliculasPinguino.ico"
         Background="LightBlue">
     <TabControl Margin="5">

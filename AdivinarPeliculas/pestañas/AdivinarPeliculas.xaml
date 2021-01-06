@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:AdivinarPeliculas.pestañas"
+             xmlns:generos="clr-namespace:AdivinarPeliculas.clases;assembly=AdivinarPeliculas"
              mc:Ignorable="d"
              d:DesignHeight="445"
              d:DesignWidth="695"
@@ -15,6 +16,113 @@
                     Value="35" />
             <Setter Property="Source"
                     Value="../recursos/arrow.png" />
+        </Style>
+
+        <Style x:Key="textoPista" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize"
+                    Value="16" />
+            <Setter Property="TextAlignment"
+                    Value="Center" />
+            <Setter Property="FontFamily"
+                    Value="Courier New" />
+            <Setter Property="Visibility"
+                    Value="Hidden" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=pistaCheckBox, Path=IsChecked}" 
+                             Value="True">
+                    <Setter Property="Visibility"
+                            Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="contenedorCheckBox"
+               TargetType="{x:Type Grid}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=pistaCheckBox, Path=IsChecked}"
+                             Value="True">
+                    <Setter Property="IsEnabled"
+                            Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="textoAdivinada"
+               TargetType="{x:Type TextBlock}">
+            <Setter Property="Visibility"
+                    Value="Hidden" />
+            <Setter Property="Background"
+                    Value="LightBlue" />
+            <Setter Property="Foreground"
+                    Value="ForestGreen" />
+            <Setter Property="FontSize"
+                    Value="60" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Adivinada}"
+                             Value="True">
+                    <Setter Property="Visibility"
+                            Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="botonValidar"
+               TargetType="{x:Type Button}">
+            <Setter Property="IsDefault"
+                    Value="True" />
+            <Setter Property="IsEnabled"
+                    Value="True" />
+            <Setter Property="Width"
+                    Value="60" />
+            <Setter Property="Margin"
+                    Value="10,0" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Adivinada, UpdateSourceTrigger=PropertyChanged}"
+                             Value="True">
+                    <Setter Property="IsEnabled"
+                            Value="False" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=contenedorValidar, Path=Tag}"
+                             Value="Boton deshabilitado">
+                    <Setter Property="IsEnabled"
+                            Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="iconoGenero"
+               TargetType="Image">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=GeneroPelicula}"
+                             Value="{x:Static generos:Pelicula+Genero.Comedia}">
+                    <Setter Property="Source"
+                            Value="../recursos/comediaIcono.png" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=GeneroPelicula}"
+                             Value="{x:Static generos:Pelicula+Genero.Drama}">
+                    <Setter Property="Source"
+                            Value="../recursos/dramaIcono.png" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=GeneroPelicula}"
+                             Value="{x:Static generos:Pelicula+Genero.Accion}">
+                    <Setter Property="Source"
+                            Value="../recursos/accionIcono.png" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=GeneroPelicula}"
+                             Value="{x:Static generos:Pelicula+Genero.Terror}">
+                    <Setter Property="Source"
+                            Value="../recursos/terrorIcono.png" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=GeneroPelicula}"
+                             Value="{x:Static generos:Pelicula+Genero.CienciaFiccion}">
+                    <Setter Property="Source"
+                            Value="../recursos/cienciaFiccionIcono.png" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
 
@@ -73,30 +181,46 @@
         <DockPanel Grid.Row="1"
                    Grid.Column="1"
                    Margin="10,5">
+            <DockPanel.Style>
+                <Style TargetType="DockPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=contenedorPrincipal, Path=DataContext}"
+                                     Value="{x:Null}">
+                            <Setter Property="IsEnabled"
+                                    Value="False" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
             <TextBlock Text="Título de la película"
                        DockPanel.Dock="Top"/>
-            <DockPanel DockPanel.Dock="Top">
+            <DockPanel DockPanel.Dock="Top"
+                       x:Name="contenedorValidar"
+                       Tag="Boton deshabilitado">
                 <Button DockPanel.Dock="Right"
                         x:Name="botonValidar"
                         Content="Validar"
-                        Width="60"
-                        Margin="10,0" />
+                        Style="{StaticResource botonValidar}"
+                        Click="BotonValidar_Click" />
                 <TextBox x:Name="tituloAdivinado" />
             </DockPanel>
-            <CheckBox DockPanel.Dock="Top"
-                      x:Name="pistaCheckBox"
-                      Margin="0,5"
-                      Content="Ver pista" />
-            <TextBlock x:Name="textoPista"
-                       DockPanel.Dock="Top"
-                       FontFamily="Courier New"
-                       FontSize="16"
-                       TextAlignment="Center" />
+            <Grid DockPanel.Dock="Top"
+                  x:Name="contenedorPistaCheckBox"
+                  Style="{StaticResource contenedorCheckBox}">
+                <CheckBox DockPanel.Dock="Top"
+                          x:Name="pistaCheckBox"
+                          Margin="0,5"
+                          Content="Ver pista"
+                          IsChecked="{Binding Path=PistaYaMostrada}" />
+            </Grid>
+            <TextBlock DockPanel.Dock="Top"
+                       Style="{StaticResource textoPista}"
+                       Text="{Binding Path=Pista}" />
             <TextBlock Text="Género"
                        DockPanel.Dock="Bottom"
                        HorizontalAlignment="Center"
                        FontSize="10"/>
-            <Image x:Name="iconoGenero"
+            <Image Style="{StaticResource iconoGenero}"
                    Stretch="Uniform"
                    Width="100"
                    Margin="0,4,0,0"/>
@@ -128,5 +252,10 @@
                 </Image.RenderTransform>
             </Image>
         </StackPanel>
+
+        <TextBlock Grid.RowSpan="3"
+                   Grid.ColumnSpan="2"
+                   Text="Pelicula ya adivinada"
+                   Style="{StaticResource textoAdivinada}" />
     </Grid>
 </UserControl>

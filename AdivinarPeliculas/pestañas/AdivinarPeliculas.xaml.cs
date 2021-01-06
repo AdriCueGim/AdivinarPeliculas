@@ -2,18 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AdivinarPeliculas.pestañas
 {
@@ -41,8 +32,6 @@ namespace AdivinarPeliculas.pestañas
         {
             InitializeComponent();
             Posicion = 0;
-
-            MuestraPeliculas();
         }
 
         private ObservableCollection<Pelicula> SeleccionaPeliculas()
@@ -52,14 +41,36 @@ namespace AdivinarPeliculas.pestañas
             List<int> peliculasYaSeleccionadas = new List<int>();
             int peliculaSeleccionada;
 
-            for (int i = 0; i < NUMERO_PELICULAS; i++)
+            for (int i = 0; i < NUMERO_PELICULAS && PeliculasLength > 5; i++)
             {
                 peliculaSeleccionada = GeneraNuevoNumeroAleatorio(0, Peliculas.Count, peliculasYaSeleccionadas);
                 peliculasYaSeleccionadas.Add(peliculaSeleccionada);
-                peliculasSeleccionadas.Add(Peliculas[peliculaSeleccionada]);
+                peliculasSeleccionadas.Add(new Pelicula(Peliculas[peliculaSeleccionada]));
             }
 
+            CompruebaPeliculas(peliculasSeleccionadas.Count);
+
             return peliculasSeleccionadas;
+        }
+
+        private void CompruebaPeliculas(int numeroPeliculasSeleccionadas)
+        {
+            if (numeroPeliculasSeleccionadas == 5)
+            {
+                MessageBox.Show(
+                    "Se han seleccionado 5 nuevas películas",
+                    "Nueva partida", MessageBoxButton.OK, MessageBoxImage.Information);
+                contenedorValidar.Tag = "Boton habilitado";
+            }
+            else
+            {
+                MessageBox.Show("Se debe tener al menos 5 películas para empezar a jugar, " +
+                                "para añadir películas vaya a la pestaña 'Gestionar'",
+                                "Aviso",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+                contenedorValidar.Tag = "Boton deshabilitado";
+            }
         }
 
         private int GeneraNuevoNumeroAleatorio(int minimo, int maximo, List<int> numerosYaGenerados)
@@ -79,17 +90,30 @@ namespace AdivinarPeliculas.pestañas
         {
             contenedorPrincipal.DataContext = PeliculasLength > 0 ? Peliculas[Posicion] : null;
             numeroPeliculas.Text = $"{Posicion + (PeliculasLength > 0 ? 1 : 0)} / {PeliculasLength}";
+        }
 
-            if (PeliculasLength < 5)
+        private int EligePuntuacion()
+        {
+            int puntuacion;
+            switch (Peliculas[Posicion].DificultadAdivinado)
             {
-                MessageBox.Show("Se debe tener al menos 5 películas para empezar a jugar",
-                                "Aviso",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Information);
-                botonValidar.IsEnabled = false;
+                case Pelicula.Dificultad.Facil:
+                    puntuacion = PUNTUACION_FACIL;
+                    break;
+                case Pelicula.Dificultad.Normal:
+                    puntuacion = PUNTUACION_NORMAL;
+                    break;
+                case Pelicula.Dificultad.Dificil:
+                    puntuacion = PUNTUACION_DIFICIL;
+                    break;
+                default:
+                    puntuacion = 0;
+                    break;
             }
-            else
-                botonValidar.IsEnabled = true;
+
+            puntuacion /= (bool)pistaCheckBox.IsChecked ? 2 : 1;
+
+            return puntuacion;
         }
 
         private void Izquierda_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -98,6 +122,7 @@ namespace AdivinarPeliculas.pestañas
             {
                 Posicion--;
                 MuestraPeliculas();
+                tituloAdivinado.Text = "";
             }
         }
 
@@ -107,15 +132,36 @@ namespace AdivinarPeliculas.pestañas
             {
                 Posicion++;
                 MuestraPeliculas();
+                tituloAdivinado.Text = "";
             }
         }
 
         private void BotonNuevaPartida_Click(object sender, RoutedEventArgs e)
         {
             textoPuntuacion.Text = 0.ToString();
-
+            Posicion = 0;
             Peliculas = SeleccionaPeliculas();
             MuestraPeliculas();
+        }
+
+        private void BotonValidar_Click(object sender, RoutedEventArgs e)
+        {
+            if (Peliculas[Posicion].Titulo.ToUpper() == tituloAdivinado.Text.ToUpper())
+            {
+                int puntuacion = int.Parse(textoPuntuacion.Text);
+                puntuacion += EligePuntuacion();
+                textoPuntuacion.Text = puntuacion.ToString();
+
+                Peliculas[Posicion].Adivinada = true;
+
+                MessageBox.Show(
+                    "¡Has acertado!",
+                    "Que bien", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                MessageBox.Show(
+                    "No has acertado, si desea visualizar la pista, haga click en el campo de abajo", 
+                    "Que mal", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

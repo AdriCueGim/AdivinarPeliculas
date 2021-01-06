@@ -6,7 +6,7 @@
              xmlns:clases="clr-namespace:AdivinarPeliculas.clases"
              xmlns:dificultades="clr-namespace:AdivinarPeliculas.clases;assembly=AdivinarPeliculas"
              mc:Ignorable="d"
-             d:DesignHeight="445"
+             d:DesignHeight="455"
              d:DesignWidth="695"
              Background="White">
     <UserControl.Resources>
@@ -149,41 +149,8 @@
             <ColumnDefinition Width="180"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <StackPanel DataContext="{Binding ElementName=listaPeliculas, Path=SelectedItem}">
-            <ListBox x:Name="listaPeliculas"
-                     ItemsSource="{Binding ElementName=contenedorPrincipal, Path=DataContext}"
-                     Height="285"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel HorizontalAlignment="Center"></WrapPanel>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-            </ListBox>
-            <DockPanel>
-                <TextBlock Text="Título de la película *"
-                           Style="{StaticResource formulario}" />
-                <TextBox Text="{Binding Path=Titulo}"
-                         x:Name="tituloTextBox"/>
-            </DockPanel>
-
-            <DockPanel>
-                <TextBlock Text="Pista de la película"
-                           Style="{StaticResource formulario}" />
-                <TextBox Text="{Binding Path=Pista}"
-                         x:Name="pistaTextBox"/>
-            </DockPanel>
-
-            <DockPanel>
-                <TextBlock Text="Imagen de la película"
-                           Style="{StaticResource formulario}" />
-                <TextBox Text="{Binding Path=RutaImagen}"
-                         x:Name="imagenTextBox"/>
-            </DockPanel>
-
-
-            <DockPanel>
+        <DockPanel DataContext="{Binding ElementName=listaPeliculas, Path=SelectedItem}">
+            <DockPanel DockPanel.Dock="Bottom">
                 <TextBlock Text="Nivel de dificultad"
                            Style="{StaticResource formulario}" />
                 <StackPanel Orientation="Vertical"
@@ -209,7 +176,40 @@
                               SelectedItem="{Binding Path=GeneroPelicula, Converter={StaticResource generoConverter}}"></ComboBox>
                 </StackPanel>
             </DockPanel>
-        </StackPanel>
+
+            <DockPanel DockPanel.Dock="Bottom">
+                <TextBlock Text="Imagen de la película"
+                           Style="{StaticResource formulario}" />
+                <TextBox Text="{Binding Path=RutaImagen}"
+                         x:Name="imagenTextBox" />
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Bottom">
+                <TextBlock Text="Pista de la película"
+                           Style="{StaticResource formulario}" />
+                <TextBox Text="{Binding Path=Pista}"
+                         x:Name="pistaTextBox" />
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Bottom">
+                <TextBlock Text="Título de la película *"
+                           Style="{StaticResource formulario}" />
+                <TextBox Text="{Binding Path=Titulo}"
+                         x:Name="tituloTextBox" />
+            </DockPanel>
+            
+            <ListBox x:Name="listaPeliculas"
+                     DockPanel.Dock="Top"
+                     ItemsSource="{Binding ElementName=contenedorPrincipal, Path=DataContext}"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel HorizontalAlignment="Center"></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+        </DockPanel>
 
         <DockPanel Grid.Column="1"
                    LastChildFill="False"

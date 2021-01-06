@@ -123,5 +123,12 @@
   <ItemGroup>
     <Resource Include="recursos\AdivinarPeliculasPinguino.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="recursos\accionIcono.png" />
+    <Resource Include="recursos\cienciaFiccionIcono.png" />
+    <Resource Include="recursos\comediaIcono.png" />
+    <Resource Include="recursos\dramaIcono.png" />
+    <Resource Include="recursos\terrorIcono.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

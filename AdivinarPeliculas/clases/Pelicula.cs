@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace AdivinarPeliculas.clases
 {
@@ -78,6 +79,35 @@ namespace AdivinarPeliculas.clases
             }
         }
 
+        private bool adivinada;
+        public bool Adivinada
+        {
+            get { return adivinada; }
+            set 
+            {
+                if (this.adivinada != value)
+                {
+                    this.adivinada = value;
+                    this.NotifyPropertyChanged("Adivinada");
+                }
+            }
+        }
+
+        private bool pistaYaMostrada;
+        public bool PistaYaMostrada
+        {
+            get { return pistaYaMostrada; }
+            set
+            {
+                if (this.pistaYaMostrada != value)
+                {
+                    this.pistaYaMostrada = value;
+                    this.NotifyPropertyChanged("PistaYaMostrada");
+                }
+            }
+        }
+
+
         public static string[] GENEROS
         {
             get
@@ -86,6 +116,7 @@ namespace AdivinarPeliculas.clases
             }
         }
 
+        [JsonConstructor]
         public Pelicula(string titulo, string pista, string rutaImagen, Dificultad dificultadAdivinado, Genero generoPelicula)
         {
             Titulo = titulo;
@@ -93,6 +124,19 @@ namespace AdivinarPeliculas.clases
             RutaImagen = rutaImagen;
             DificultadAdivinado = dificultadAdivinado;
             GeneroPelicula = generoPelicula;
+            Adivinada = false;
+            PistaYaMostrada = false;
+        }
+
+        public Pelicula(Pelicula pelicula)
+        {
+            Titulo = pelicula.Titulo;
+            Pista = pelicula.Pista;
+            RutaImagen = pelicula.RutaImagen;
+            DificultadAdivinado = pelicula.DificultadAdivinado;
+            GeneroPelicula = pelicula.GeneroPelicula;
+            Adivinada = false;
+            PistaYaMostrada = false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
