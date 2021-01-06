@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:AdivinarPeliculas.pestañas"
-             xmlns:generos="clr-namespace:AdivinarPeliculas.clases;assembly=AdivinarPeliculas"
+             xmlns:pelicula="clr-namespace:AdivinarPeliculas.clases;assembly=AdivinarPeliculas"
              mc:Ignorable="d"
              d:DesignHeight="445"
              d:DesignWidth="695"
@@ -98,35 +98,57 @@
                TargetType="Image">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=GeneroPelicula}"
-                             Value="{x:Static generos:Pelicula+Genero.Comedia}">
+                             Value="{x:Static pelicula:Pelicula+Genero.Comedia}">
                     <Setter Property="Source"
                             Value="../recursos/comediaIcono.png" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=GeneroPelicula}"
-                             Value="{x:Static generos:Pelicula+Genero.Drama}">
+                             Value="{x:Static pelicula:Pelicula+Genero.Drama}">
                     <Setter Property="Source"
                             Value="../recursos/dramaIcono.png" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=GeneroPelicula}"
-                             Value="{x:Static generos:Pelicula+Genero.Accion}">
+                             Value="{x:Static pelicula:Pelicula+Genero.Accion}">
                     <Setter Property="Source"
                             Value="../recursos/accionIcono.png" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=GeneroPelicula}"
-                             Value="{x:Static generos:Pelicula+Genero.Terror}">
+                             Value="{x:Static pelicula:Pelicula+Genero.Terror}">
                     <Setter Property="Source"
                             Value="../recursos/terrorIcono.png" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=GeneroPelicula}"
-                             Value="{x:Static generos:Pelicula+Genero.CienciaFiccion}">
+                             Value="{x:Static pelicula:Pelicula+Genero.CienciaFiccion}">
                     <Setter Property="Source"
                             Value="../recursos/cienciaFiccionIcono.png" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="fondoDificultades"
+               TargetType="{x:Type Grid}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=DificultadAdivinado}"
+                             Value="{x:Static pelicula:Pelicula+Dificultad.Facil}">
+                    <Setter Property="Background"
+                            Value="LightGreen" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=DificultadAdivinado}"
+                             Value="{x:Static pelicula:Pelicula+Dificultad.Normal}">
+                    <Setter Property="Background"
+                            Value="LightYellow" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=DificultadAdivinado}"
+                             Value="{x:Static pelicula:Pelicula+Dificultad.Dificil}">
+                    <Setter Property="Background"
+                            Value="IndianRed"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
 
     <Grid x:Name="contenedorPrincipal"
+          Style="{StaticResource fondoDificultades}"
           Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>

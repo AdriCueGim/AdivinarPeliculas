@@ -30,6 +30,12 @@ namespace AdivinarPeliculas.pestañas
 
         private void BotonEliminar_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show(
+                   "Se ha eliminado la película " + 
+                   (listaPeliculas.SelectedItem as Pelicula).Titulo +
+                   " con exito",
+                   "Película eliminada",
+                   MessageBoxButton.OK, MessageBoxImage.Information);
             Peliculas.Remove(listaPeliculas.SelectedItem as Pelicula);
             ActualizaLista();
         }
@@ -52,6 +58,11 @@ namespace AdivinarPeliculas.pestañas
                                        (Pelicula.Genero)Enum.Parse(
                                                             typeof(Pelicula.Genero),
                                                             listaGeneros.SelectedItem.ToString())));
+
+            MessageBox.Show(
+                   "Se ha añadido la película " + tituloTextBox.Text + " con exito",
+                   "Película añadida",
+                   MessageBoxButton.OK, MessageBoxImage.Information);
             ActualizaLista();
         }
 
